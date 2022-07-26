@@ -1,6 +1,6 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using kcp2k;
 using Mirror;
 using UnityEngine;
 using UnityEngine.Events;
@@ -38,6 +38,24 @@ namespace Project
         {
             base.OnClientDisconnect();
             onClientDisconnect?.Invoke();
+        }
+
+        public override void OnServerError(NetworkConnectionToClient conn, Exception exception)
+        {
+            base.OnServerError(conn, exception);
+            Debug.LogError($"Server exception: {exception.Message}\n\n{exception.StackTrace}");
+        }
+
+        public override bool OnRoomServerSceneLoadedForPlayer(NetworkConnectionToClient conn, GameObject roomPlayer, GameObject gamePlayer)
+        {
+            var baseResult = base.OnRoomServerSceneLoadedForPlayer(conn, roomPlayer, gamePlayer);
+            
+            var r = roomPlayer.GetComponent<MyNetworkRoomPlayer>();
+            var p = gamePlayer.GetComponent<MyNetworkPlayer>();
+            r.player = p;
+            p.roomPlayer = r;
+            
+            return baseResult;
         }
     }
 }

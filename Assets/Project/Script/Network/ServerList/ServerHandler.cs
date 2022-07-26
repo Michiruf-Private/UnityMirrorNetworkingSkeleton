@@ -48,9 +48,11 @@ namespace Project
         {
             if (string.IsNullOrEmpty(usernameInput.text))
                 return;
+            if (!transport.IsAuthenticated() || !transport.Available())
+                return;
 
             transport.serverName = usernameInput.text;
-            
+
             // Cancel any currently started servers, to be able to try again
             MyNetworkManager.singleton.StopHost();
 

@@ -9,21 +9,19 @@ namespace Project
     {
         [SyncVar] public string username;
 
+        internal MyNetworkPlayer player;
+
+        public bool authorityStarted;
         public UnityEvent onStartAuthority;
-        public UnityEvent<bool> onReadyStateChanged;
 
         public override void OnStartAuthority()
         {
             CmdSetUsername(PlayerPrefs.GetString(PlayerPrefsConstants.Username.GetStringValue()));
+            authorityStarted = true;
             onStartAuthority?.Invoke();
         }
 
-        public override void ReadyStateChanged(bool oldReadyState, bool newReadyState)
-        {
-            onReadyStateChanged?.Invoke(newReadyState);
-        }
-
-        [Command]
+        [Command(requiresAuthority = true)]
         private void CmdSetUsername(string username)
         {
             this.username = username;
