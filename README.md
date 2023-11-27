@@ -25,7 +25,7 @@ Config file in config/config.json:
 {
   "TransportDLL": "MultiCompiled.dll",
   "TransportClass": "kcp2k.KcpTransport",
-  "AuthenticationKey": "porno",
+  "AuthenticationKey": "password",
   "TransportPort": 7777,
   "UpdateLoopTime": 10,
   "UpdateHeartbeatInterval": 100,
